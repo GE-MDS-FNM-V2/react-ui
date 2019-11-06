@@ -48,6 +48,23 @@ do that by running:
 now dev
 ```
 
+## Linting and Code Formatting
+This repo formats and lints your code through prettier: https://prettier.io/
+
+This repo is also setup to automatically lint and format your code on every
+commit, and will prevent a commit from happening if they fail. This happens
+automatically with the following tools:
+Husky: https://www.npmjs.com/package/husky
+Lint-staged: https://www.npmjs.com/package/lint-staged
+
+Husky will automatically setup git hooks on node module installation to allow 
+lint-staged to be run before every commit.
+Lint-staged will run prettier on all files that are staged to be commited, and 
+will fail the git pre-commit hook if linting fails.
+
+Configuration for these tools can be found in the package.json at the root of
+this repo under the keys: "husky", "lint-staged", and "prettier"
+
 
 ## Available Create-React-App Scripts
 
