@@ -2,11 +2,13 @@ import React from 'react';
 import { Button, Container, Row, Col } from 'reactstrap';
 import { fetchResult } from '../store/actions';
 
-export default ({ dispatch, result, fetchingResult, error }) => {
+export default ({ dispatch, result, fetchingResult, error, inElectron }) => {
   return (
     <Container>
       <Row>
         <Col xs={12}>
+          <h2>Are you within an electron app?</h2>{' '}
+          <p>{JSON.stringify(inElectron)}</p>
           {result && (
             <React.Fragment>
               <h2>Result</h2> <p>{JSON.stringify(result, null, 4)}</p>

@@ -5,7 +5,8 @@ const mapStateToProps = state => {
   return {
     result: state.result,
     fetchingResult: state.fetchingResult,
-    error: state.error
+    error: state.error,
+    inElectron: state.inElectron
   };
 };
 
