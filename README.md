@@ -1,7 +1,25 @@
 # GE-MDS-FNM-V2
 GE Field Network Manager V2
 
-## Deployments
+## Running locally
+To run this locally you must first have node and npm installed on your machine.
+You can follow the instructions here to do that: https://nodejs.org/en/download/
+
+Then please run the following:
+```
+git clone https://github.com/GE-MDS-FNM-V2/frontend.git ~/Desktop/ge-frontend
+cd ~/Desktop/ge-frontend
+npm install -g yarn
+yarn
+yarn start
+```
+
+The above steps will clone the repository to your desktop, navigate you into 
+the repo, install yarn (similar to npm - but made by facebook with some
+additional features), install your dependencies within the package.json, 
+and start up a local development server with automatic reloading on file changes
+
+## Deployments (in the cloud and locally)
 To deploy our webapp we use a service called ZEIT Now.
 It is setup to automatically deploy every commit that is pushed to github on any
 branch. You can see those deployments here: 
