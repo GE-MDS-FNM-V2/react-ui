@@ -1,19 +1,21 @@
 # GE-MDS-FNM-V2
-GE MDS Field Network Manager V2
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+GE Field Network Manager V2
 
 ## Deployments
 To deploy our webapp we use a service called ZEIT Now.
-It is setup to automatically deploy every commit. You can see those deployments
-here: https://github.com/GE-MDS-FNM-V2/GE-MDS-FNM-V2/deployments.
+It is setup to automatically deploy every commit that is pushed to github on any
+branch. You can see those deployments here: 
+https://github.com/GE-MDS-FNM-V2/frontend/deployments.
+
+The default master deployment is located here:
+https://ge-fnm-v2-frontend.now.sh/
 
 Now's integration also posts a comment on every commit it publishes. You can
 find an example of this here: 
-https://github.com/GE-MDS-FNM-V2/GE-MDS-FNM-V2/commit/d2ec6d0fe11941ce52c60a14673764692cbda863#comments
+https://github.com/GE-MDS-FNM-V2/frontend/commit/f9f887b212d556b27d3974203c293ccf4bea6223
 
-If you would like to deploy from your own commandline rather than through the
-git hooks, you can use ZEIT's CLI tool to do that. The following should get you
+If you would like to deploy from your own commandline rather than pushing to 
+github, you can use ZEIT's CLI tool to do that. The following should get you
 started with that:
 ```
 yarn add now
@@ -22,7 +24,14 @@ now
 (Note: the now CLI tool requires you to login, however the CLI will instruct you
 on how to do that yourself)
 
-## Available Scripts
+If you would like to 1-for-1 recreate a deployment to Zeit now locally, you can
+do that by running:
+```
+now dev
+```
+
+
+## Available Create-React-App Scripts
 
 In the project directory, you can run:
 
@@ -80,10 +89,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ma
 ### Advanced Configuration
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
 
 ### `yarn build` fails to minify
 
