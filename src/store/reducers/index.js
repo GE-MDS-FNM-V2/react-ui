@@ -1,34 +1,10 @@
-import {
-  FETCH_RESULT,
-  FETCH_RESULT_SUCCESS,
-  FETCH_RESULT_FAILURE
-} from '../actions';
-import initialState from '../initialState';
+import { combineReducers } from 'redux';
+import mockApi from './mockApi';
+import serial from './serial';
+import inElectron from './inElectron';
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_RESULT:
-      return {
-        ...state,
-        fetchingResult: true,
-        error: null,
-        result: null
-      };
-    case FETCH_RESULT_SUCCESS:
-      return {
-        ...state,
-        fetchingResult: false,
-        result: action.payload,
-        error: null
-      };
-    case FETCH_RESULT_FAILURE:
-      return {
-        ...state,
-        fetchingResult: false,
-        result: null,
-        error: action.payload
-      };
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  mockApi,
+  serial,
+  inElectron
+});
