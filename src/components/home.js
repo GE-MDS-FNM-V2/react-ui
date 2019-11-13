@@ -27,24 +27,29 @@ export default ({ inElectron, fetchMockApi, fetchSerial, mockApi, serial }) => {
             Make Request
           </Button>
           <hr />
-          {serial.result && (
-            <React.Fragment>
-              <h2>Result</h2> <p>{JSON.stringify(serial.result, null, 4)}</p>
-            </React.Fragment>
+          {inElectron && (
+            <div>
+              {serial.result && (
+                <React.Fragment>
+                  <h2>Result</h2>{' '}
+                  <p>{JSON.stringify(serial.result, null, 4)}</p>
+                </React.Fragment>
+              )}
+              {serial.isFetching && <h2>Is Fetching Serial Port</h2>}
+              {serial.error && (
+                <React.Fragment>
+                  <h2>Error</h2> <p>{JSON.stringify(serial.error, null, 4)}</p>
+                </React.Fragment>
+              )}
+              <Button
+                onClick={() => {
+                  fetchSerial();
+                }}
+              >
+                Get Serial Ports
+              </Button>
+            </div>
           )}
-          {serial.isFetching && <h2>Is Fetching Serial Port</h2>}
-          {serial.error && (
-            <React.Fragment>
-              <h2>Error</h2> <p>{JSON.stringify(serial.error, null, 4)}</p>
-            </React.Fragment>
-          )}
-          <Button
-            onClick={() => {
-              fetchSerial();
-            }}
-          >
-            Get Serial Ports
-          </Button>
         </Col>
       </Row>
     </Container>
