@@ -1,10 +1,11 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, Row, Button } from 'reactstrap';
+import LoadDevicesConfiguration from '../../containers/LoadDevicesConfiguration';
 
 export default ({ devices, selectedDevice, selectDevice }) => {
   return (
     <React.Fragment>
-      {devices.length < 0 && <p>No devices configured</p>}
+      {devices.length == 0 && <LoadDevicesConfiguration />}
       {devices.length > 0 && (
         <Table hover>
           <thead>

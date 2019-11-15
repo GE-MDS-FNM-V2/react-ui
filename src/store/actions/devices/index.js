@@ -1,3 +1,4 @@
+export const SET_DEVICES = 'SET_DEVICES';
 export const QUERY_DEVICE_INFO = 'QUERY_DEVICE_INFO';
 export const QUERY_DEVICE_INFO_SUCCESS = 'QUERY_DEVICE_INFO_SUCCESS';
 export const QUERY_DEVICE_INFO_FAILURE = 'QUERY_DEVICE_INFO_FAILURE';
@@ -96,5 +97,12 @@ export const setDeviceInspectorActiveTab = tabId => {
   return {
     type: SET_DEVICE_INSPECTOR_ACTIVE_TAB,
     payload: tabId
+  };
+};
+
+export const setDevices = devices => {
+  return {
+    type: SET_DEVICES,
+    payload: devices
   };
 };
