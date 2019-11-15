@@ -1,19 +1,22 @@
 import { connect } from 'react-redux';
 import DeviceInspector from '../../components/DeviceInspector';
-import { selectDeviceInspectorTab } from '../../store/actions/deviceInspector';
+import {
+  queryDeviceInfo,
+  setDeviceInspectorActiveTab
+} from '../../store/actions/devices';
+
 const mapStateToProps = state => {
   return {
     devices: state.devices,
-    selectedDevice: state.selectedDevice,
-    selectedDeviceInspectorTabId: state.deviceInspector.selectedTabId,
-    deviceInspectorTabs: state.deviceInspector.tabs
+    selectedDevice: state.selectedDevice
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     // dispatching actions returned by action creators
-    selectDeviceInspectorTab: id => dispatch(selectDeviceInspectorTab(id))
+    queryDeviceInfo: id => dispatch(queryDeviceInfo(id)),
+    setDeviceInspectorActiveTab: id => dispatch(setDeviceInspectorActiveTab(id))
   };
 };
 

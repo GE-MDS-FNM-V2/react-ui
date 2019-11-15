@@ -1,23 +1,21 @@
 import React from 'react';
 import {
-  Row,
-  Col,
+  Button,
   Nav,
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Spinner
 } from 'reactstrap';
-import classnames from 'classnames';
 
 import './index.css';
 
 export default ({
   devices,
   selectedDevice,
-  selectedDeviceInspectorTabId,
-  deviceInspectorTabs,
-  selectDeviceInspectorTab
+  queryDeviceInfo,
+  setDeviceInspectorActiveTab
 }) => {
   if (selectedDevice == null) {
     return <p>No device selected</p>;
@@ -25,31 +23,41 @@ export default ({
   const device = devices.filter(device => {
     return device.id === selectedDevice;
   })[0];
+  const activeTab = device.deviceInspectorSelectedTab;
   return (
     <div>
-      <Nav tabs>
-        {deviceInspectorTabs.map(tab => {
-          return (
-            <NavItem>
-              <NavLink
-                active={selectedDeviceInspectorTabId === tab.id}
-                onClick={() => selectDeviceInspectorTab(tab.id)}
-              >
-                {tab.title}
-              </NavLink>
-            </NavItem>
-          );
-        })}
-      </Nav>
-      <TabContent activeTab={selectedDeviceInspectorTabId}>
-        {deviceInspectorTabs.map(tab => {
-          return (
-            <TabPane tabId={tab.id}>
-              <p>this is tab content</p>
-            </TabPane>
-          );
-        })}
-      </TabContent>
+      <h2>{device.name}</h2>
+      {device.loading && <Spinner />}
+      {!device.loading && (
+        <TabContent>
+          <Button onClick={() => queryDeviceInfo(device.id)}>Refresh</Button>
+          <Nav tabs>
+            {Object.keys(device.data).map(tabTitle => {
+              return (
+                <NavItem>
+                  <NavLink
+                    active={activeTab === tabTitle}
+                    onClick={() => {
+                      setDeviceInspectorActiveTab(tabTitle);
+                    }}
+                  >
+                    {tabTitle}
+                  </NavLink>
+                </NavItem>
+              );
+            })}
+          </Nav>
+          <TabContent activeTab={activeTab}>
+            {Object.keys(device.data).map(tabTitle => {
+              return (
+                <TabPane tabId={tabTitle}>
+                  {JSON.stringify(device.data[tabTitle], null, 4)}
+                </TabPane>
+              );
+            })}
+          </TabContent>
+        </TabContent>
+      )}
     </div>
   );
 };
