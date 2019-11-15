@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import Home from '../components/home';
-import { fetchMockApi } from '../store/actions/mockApi';
-import { fetchSerial } from '../store/actions/serial';
+import Home from '../../components/Home';
+import { fetchMockApi } from '../../store/actions/mockApi';
+import { fetchSerial } from '../../store/actions/serial';
 
 const mapDispatchToProps = dispatch => {
   return {
