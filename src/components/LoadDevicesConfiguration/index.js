@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Row, Button, Alert, Input } from 'reactstrap';
+import {
+  Row,
+  Button,
+  Alert,
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap';
 import fileSchema from './fileSchema';
 // import Dropzone from 'react-dropzone';
 
@@ -7,6 +16,9 @@ export default ({ setDevices }) => {
   let filereader;
 
   let [fileContents, setFileContents] = useState(null);
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+
   const handleFileRead = e => {
     const content = filereader.result;
     // console.log(content);
@@ -32,27 +44,46 @@ export default ({ setDevices }) => {
 
   return (
     <Row>
-      <Input
-        type="file"
-        id="file-upload"
-        accept=".json"
-        onChange={e => handleFileChosen(e.target.files[0])}
-      />
-      {validationError && (
-        <Alert color="danger">Configuration invalid: {validationError}</Alert>
-      )}
-      {isValid && (
-        <div>
-          <Alert color="success">Configuration Valid</Alert>
+      <Button color="info" onClick={toggleModal}>
+        Load Devices Configuration File
+      </Button>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>
+          Load Devices Configuration File
+        </ModalHeader>
+        <ModalBody>
+          <Input
+            type="file"
+            id="file-upload"
+            accept=".json"
+            onChange={e => handleFileChosen(e.target.files[0])}
+          />
+          {validationError && (
+            <Alert color="danger">
+              Configuration invalid: {validationError}
+            </Alert>
+          )}
+          {isValid && (
+            <div>
+              <Alert color="success">Configuration Valid</Alert>
+            </div>
+          )}
+        </ModalBody>
+        <ModalFooter>
           <Button
+            color="primary"
             onClick={() => {
               setDevices(JSON.parse(fileContents).devices);
             }}
+            disabled={!isValid}
           >
             Submit
+          </Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>
+            Cancel
           </Button>
-        </div>
-      )}
+        </ModalFooter>
+      </Modal>
 
       {/* <Dropzone onDrop={acceptedFiles => readFile(console.log(acceptedFiles[0]))}>
         {({ getRootProps, getInputProps }) => (
