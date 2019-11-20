@@ -5,7 +5,6 @@ export default yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        name: yup.string().required(),
         id: yup.string().required(),
         connectionInfo: yup
           .object()

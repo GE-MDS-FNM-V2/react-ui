@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Row, Button } from 'reactstrap';
 import LoadDevicesConfiguration from '../../containers/LoadDevicesConfiguration';
+import './index.css';
 
 export default ({ devices, selectedDevice, selectDevice }) => {
   return (
@@ -10,8 +11,6 @@ export default ({ devices, selectedDevice, selectDevice }) => {
         <Table hover>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Viewing</th>
               <th>Connection Type</th>
               <th>Address</th>
               <th>Username</th>
@@ -20,21 +19,29 @@ export default ({ devices, selectedDevice, selectDevice }) => {
             </tr>
           </thead>
           <tbody>
-            {devices.map(device => {
+            {devices.map((device, index) => {
               return (
-                <tr>
-                  <td>{device.name}</td>
-                  <td>
-                    <input
-                      type="radio"
-                      onClick={() => selectDevice(device.id)}
-                      checked={selectedDevice === device.id}
-                    />
-                  </td>
+                <tr
+                  key={index}
+                  onClick={() => selectDevice(device.id)}
+                  className={selectedDevice === device.id ? 'active' : ''}
+                >
                   <td>{device.connectionInfo.type}</td>
                   <td>{device.connectionInfo.ipAddr}</td>
-                  <td>{device.connectionInfo.username}</td>
-                  <td>{device.connectionInfo.password}</td>
+                  <td>
+                    <input
+                      type="username"
+                      value={device.connectionInfo.username}
+                      readOnly
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="password"
+                      value={device.connectionInfo.password}
+                      readOnly
+                    />
+                  </td>
                   <td>todo - get status</td>
                 </tr>
               );

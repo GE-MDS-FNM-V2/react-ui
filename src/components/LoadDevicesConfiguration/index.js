@@ -12,7 +12,7 @@ import {
 import fileSchema from './fileSchema';
 // import Dropzone from 'react-dropzone';
 
-export default ({ setDevices }) => {
+export default ({ addDevice }) => {
   let filereader;
 
   let [fileContents, setFileContents] = useState(null);
@@ -73,7 +73,10 @@ export default ({ setDevices }) => {
           <Button
             color="primary"
             onClick={() => {
-              setDevices(JSON.parse(fileContents).devices);
+              const devices = JSON.parse(fileContents).devices;
+              devices.forEach(device => {
+                addDevice(device);
+              });
             }}
             disabled={!isValid}
           >

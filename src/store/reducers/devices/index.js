@@ -4,7 +4,7 @@ import {
   QUERY_DEVICE_INFO_FAILURE,
   QUERY_DEVICE_INFO_SUCCESS,
   SET_DEVICE_INSPECTOR_ACTIVE_TAB,
-  SET_DEVICES
+  ADD_DEVICE
 } from '../../actions/devices';
 
 export default (state = initialState, action) => {
@@ -61,8 +61,8 @@ export default (state = initialState, action) => {
           deviceInspectorSelectedTab: action.payload
         };
       });
-    case SET_DEVICES:
-      return action.payload;
+    case ADD_DEVICE:
+      return [...state, action.payload];
     default:
       return state;
   }
