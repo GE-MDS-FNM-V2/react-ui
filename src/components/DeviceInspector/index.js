@@ -34,7 +34,7 @@ export default ({
           <Nav tabs>
             {Object.keys(device.data).map(tabTitle => {
               return (
-                <NavItem>
+                <NavItem key={`${tabTitle}-tab-link`}>
                   <NavLink
                     active={activeTab === tabTitle}
                     onClick={() => {
@@ -50,7 +50,7 @@ export default ({
           <TabContent activeTab={activeTab}>
             {Object.keys(device.data).map(tabTitle => {
               return (
-                <TabPane tabId={tabTitle}>
+                <TabPane tabId={tabTitle} key={`${tabTitle}-tab-pane`}>
                   {JSON.stringify(device.data[tabTitle], null, 4)}
                 </TabPane>
               );

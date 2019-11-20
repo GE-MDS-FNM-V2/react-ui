@@ -7,10 +7,11 @@ import {
   ADD_DEVICE
 } from '../../actions/devices';
 
+import { createRadioAPI } from '../../../api';
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case QUERY_DEVICE_INFO:
-      console.log(state, action);
       return state.map(device => {
         if (device.id !== action.payload) {
           return device;
@@ -62,7 +63,29 @@ export default (state = initialState, action) => {
         };
       });
     case ADD_DEVICE:
-      return [...state, action.payload];
+      const connectionInfo = action.payload.connectionInfo;
+      const connectionType = connectionInfo.type;
+      if (connectionType === 'IP') {
+        return [
+          ...state,
+          {
+            ...action.payload,
+            api: createRadioAPI(
+              connectionInfo.ipAddr,
+              connectionInfo.username,
+              connectionInfo.password
+            )
+          }
+        ];
+      } else {
+        console.error(
+          'Connection type',
+          connectionType,
+          'currently not supported'
+        );
+        return state;
+      }
+
     default:
       return state;
   }
