@@ -1,21 +1,17 @@
 import { connect } from 'react-redux';
 import Home from '../../components/Home';
-import { fetchMockApi } from '../../store/actions/mockApi';
-import { fetchSerial } from '../../store/actions/serial';
+import { getLogin } from '../../store/actions/login';
 
 const mapDispatchToProps = dispatch => {
   return {
     // dispatching actions returned by action creators
-    fetchMockApi: () => dispatch(fetchMockApi()),
-    fetchSerial: () => dispatch(fetchSerial())
+    getLogin: () => dispatch(getLogin())
   };
 };
 
 const mapStateToProps = state => {
   return {
-    mockApi: state.mockApi,
-    serial: state.serial,
-    inElectron: state.inElectron
+    login: state.login
   };
 };
 
