@@ -1,19 +1,6 @@
-import { connect } from 'react-redux';
 import Home from '../../components/Home';
+import React from 'react';
 
-const mapDispatchToProps = dispatch => {
-  return {
-    // dispatching actions returned by action creators
-  };
+export default () => {
+  return <Home />;
 };
-
-const mapStateToProps = state => {
-  return {};
-};
-
-const MainContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
-
-export default MainContainer;
