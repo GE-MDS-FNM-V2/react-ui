@@ -1,28 +1,25 @@
-import { connect } from 'react-redux';
 import DeviceInspector from '../../components/DeviceInspector';
 import {
   queryDeviceInfo,
   setDeviceInspectorActiveTab
 } from '../../store/actions/devices';
 
-const mapStateToProps = state => {
-  return {
-    devices: state.devices,
-    selectedDevice: state.selectedDevice
-  };
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+export default () => {
+  const dispatch = useDispatch();
+  const devices = useSelector(state => state.devices);
+  const selectedDevice = useSelector(state => state.selectedDevice);
+
+  return (
+    <DeviceInspector
+      devices={devices}
+      selectedDevice={selectedDevice}
+      queryDeviceInfo={id => dispatch(queryDeviceInfo(id))}
+      setDeviceInspectorActiveTab={id =>
+        dispatch(setDeviceInspectorActiveTab(id))
+      }
+    />
+  );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    // dispatching actions returned by action creators
-    queryDeviceInfo: id => dispatch(queryDeviceInfo(id)),
-    setDeviceInspectorActiveTab: id => dispatch(setDeviceInspectorActiveTab(id))
-  };
-};
-
-const ComponentWithData = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeviceInspector);
-
-export default ComponentWithData;
