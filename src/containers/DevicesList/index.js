@@ -1,24 +1,19 @@
-import { connect } from 'react-redux';
 import DevicesList from '../../components/DevicesList';
 import { selectDevice } from '../../store/actions/selectedDevice';
 
-const mapStateToProps = state => {
-  return {
-    devices: state.devices,
-    selectedDevice: state.selectedDevice
-  };
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+export default () => {
+  const dispatch = useDispatch();
+  const devices = useSelector(state => state.devices);
+  const selectedDevice = useSelector(state => state.selectedDevice);
+
+  return (
+    <DevicesList
+      devices={devices}
+      selectedDevice={selectedDevice}
+      selectDevice={id => dispatch(selectDevice(id))}
+    />
+  );
 };
-
-const mapDispatchToProps = dispatch => {
-  return {
-    // dispatching actions returned by action creators
-    selectDevice: id => dispatch(selectDevice(id))
-  };
-};
-
-const ComponentWithData = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DevicesList);
-
-export default ComponentWithData;
