@@ -61,10 +61,19 @@ export const createRadioAPI = async (IP_ADDR, USERNAME, PASSWORD) => {
         const parser = new Parser.YangParser();
         const result = parser.parse(JSON.stringify(yangModel.result.data));
         console.log(
-          'Here is if snmp is enabled/diabled represented in an internal data model',
-          result
+          `Here is if snmp is enabled/diabled represented in an internal data model ${JSON.stringify(
+            result,
+            null,
+            4
+          )}`
         );
-        alert(result);
+        alert(
+          `Here is if snmp is enabled/diabled represented in an internal data model ${JSON.stringify(
+            result,
+            null,
+            4
+          )}`
+        );
       } catch (error) {
         console.error(
           'Could not parse response into internal data model',
