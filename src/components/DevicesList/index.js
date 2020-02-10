@@ -42,7 +42,7 @@ export default ({ devices, selectedDevice, selectDevice }) => {
                       readOnly
                     />
                   </td>
-                  <td>todo - get status</td>
+                  <td>{device.error ? device.error : 'Connected'}</td>
                 </tr>
               );
             })}

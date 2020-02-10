@@ -7,9 +7,11 @@ import { useDispatch } from 'react-redux';
 export default () => {
   const dispatch = useDispatch();
 
-  return (
-    <LoadDevicesConfiguration
-      addDevice={deviceConfig => dispatch(addDevice(deviceConfig))}
-    />
-  );
+  const addDeviceFunc = async deviceConfig => {
+    console.log(deviceConfig);
+    const result = await addDevice(deviceConfig);
+    console.log(result);
+    dispatch(result);
+  };
+  return <LoadDevicesConfiguration addDevice={addDeviceFunc} />;
 };

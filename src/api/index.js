@@ -1,115 +1,60 @@
 import Axios from 'axios';
+import { executeCommunication } from '@ge-fnm/communication-selector-module';
+import {
+  v1,
+  ActionTypeV1,
+  CommunicationMethodV1,
+  ProtocolV1
+} from '@ge-fnm/action-object';
+import { Parser } from '@ge-fnm/data-model';
 
-export const createRadioAPI = (IP_ADDR, USERNAME, PASSWORD) => {
-  const URL = `http://${IP_ADDR}/jsonrpc`;
-  let id = -1;
+export const createRadioAPI = async (IP_ADDR, USERNAME, PASSWORD) => {
+  let init_action = v1
+    .create({
+      version: 1,
+      actionType: ActionTypeV1.INIT,
+      commData: {
+        commMethod: CommunicationMethodV1.HTTP,
+        protocol: ProtocolV1.JSONRPC,
+        username: USERNAME,
+        password: PASSWORD
+      },
+      modifyingValue: '',
+      path: [],
+      response: undefined,
+      uri: IP_ADDR
+    })
+    .serialize();
 
-  let loggedIn = false;
-
-  const command = (method, params) => {
-    id++;
-    let data = {
-      jsonrpc: '2.0',
-      id: id,
-      method: method,
-      params: params
-    };
-    let headers = {
-      'Content-Type': 'application/json'
-    };
-    return Axios({
-      url: URL,
-      method: 'post',
-      data: data,
-      headers: headers,
-      withCredentials: true
-    });
-  };
-
-  const login = () => {
-    console.log('here');
-    let params = {
-      user: USERNAME,
-      passwd: PASSWORD
-    };
-    return command('login', params, id).then(value => {
-      loggedIn = true;
-      return value;
-    });
-  };
-
-  const readTrans = () => {
-    let params = {
-      mode: 'read',
-      tag: 'test'
-    };
-    return command('new_trans', params);
-  };
-
-  const ensureLogin = () => {
-    return new Promise((resolve, reject) => {
-      if (loggedIn) {
-        resolve();
-      } else {
-        login()
-          .then(loginResult => {
-            resolve(loginResult.data);
-          })
-          .catch(e => {
-            reject(e);
-          });
-      }
-    });
-  };
-
-  const runCommand = commandToRun => {
-    return new Promise((resolve, reject) => {
-      ensureLogin().then(() => {
-        readTrans().then(readTransResponse => {
-          const transactionHandle = readTransResponse.data.result.th;
-          const { METHOD, PARAMS } = commandToRun(transactionHandle);
-          resolve(command(METHOD, PARAMS));
-        });
-      });
-    });
-  };
-
-  const getSchema = () => {
-    let params = {
-      path: '/if:interfaces',
-      levels: 10
-    };
-    // return a function that takes the current transaction handle
-    return th => {
-      return {
-        METHOD: 'get_schema',
-        PARAMS: {
-          ...params,
-          th
-        }
-      };
-    };
-  };
-
-  const getSystemName = () => {
-    let params = {
-      path: '/sys:system/name'
-    };
-    // return a function that takes the current transaction handle
-    return th => {
-      return {
-        METHOD: 'get_value',
-        PARAMS: {
-          ...params,
-          th
-        }
-      };
-    };
-  };
+  await executeCommunication(init_action);
 
   return {
-    runCommand,
-    getSchema,
-    getSystemName
+    runCommand: async () => {
+      let get_action = v1
+        .create({
+          version: 1,
+          actionType: ActionTypeV1.GET,
+          commData: {
+            commMethod: CommunicationMethodV1.HTTP,
+            protocol: ProtocolV1.JSONRPC
+          },
+          modifyingValue: '',
+          path: ['/serv:services'],
+          response: undefined,
+          uri: URL
+        })
+        .serialize();
+
+      const data = await executeCommunication(get_action);
+      const newResp = v1.deserialize(data);
+      const yangModel = JSON.parse(newResp.information.response);
+      const parser = new Parser.YangParser();
+      console.log(yangModel);
+      const result = parser.parse(JSON.stringify(yangModel.result.data));
+      console.log(
+        'Here is if snpm is enabled/diabled represented in an internal data model',
+        result
+      );
+    }
   };
 };
