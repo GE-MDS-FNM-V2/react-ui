@@ -988,6 +988,18 @@
     browser-or-node "^1.2.1"
     immutable "^4.0.0-rc.12"
 
+"@ge-fnm/csm@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.0.0.tgz#d1bb1f94826c0a5efc50ad601756ac259d1426fa"
+  integrity sha512-u0WkTRoyZUYqte3e9Pg854Vt7A2hKF1m91hzqR0/23ye3m373uw3/LQP15bLr+HMvK3nYsJiN51ovHEmf9Bq+A==
+  dependencies:
+    "@ge-fnm/action-object" "^2.0.1"
+    "@ge-fnm/perform-action-module" "^1.0.0"
+    "@types/browser-or-node" "^1.2.0"
+    axios "^0.19.2"
+    browser-or-node "^1.2.1"
+    immutable "^4.0.0-rc.12"
+
 "@ge-fnm/data-model@^12.1.0":
   version "12.1.0"
   resolved "https://registry.yarnpkg.com/@ge-fnm/data-model/-/data-model-12.1.0.tgz#0f262b435206e1be488d819974ec4c97ddc0cb0e"
@@ -997,6 +1009,21 @@
   version "1.0.6-next.1"
   resolved "https://registry.yarnpkg.com/@ge-fnm/perform-action-module/-/perform-action-module-1.0.6-next.1.tgz#8454ae25e26d2233cc4dd148ffafe4f2103f5463"
   integrity sha512-lTiFfrWnaZ/bUc8R3CljyrLNPfnU+hvdnkLDXqLHZBgNojkzDNwLzSQJ5uJBf8YzKHI6r7q87XG1CYrbjIorvQ==
+  dependencies:
+    "@ge-fnm/action-object" "^2.0.1"
+    browser-or-node "^1.2.1"
+    handlebars "4.7.3"
+    immutable "^4.0.0-rc.12"
+    tsc-watch "^4.1.0"
+    typescript-map "^0.0.7"
+    util "^0.12.1"
+    util-inspect "^0.1.8"
+    webpack "^4.41.5"
+
+"@ge-fnm/perform-action-module@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/perform-action-module/-/perform-action-module-1.0.0.tgz#4b523e612acdad74b24f84d644dc99d69ed162bb"
+  integrity sha512-RWGAyivOT7NNHIODrrK+CUupbyg//gETHGO9dkPYeJiFYwy5D7yaoF5S6Ui6g9ie2ICj5Grv/TAoDDa0CG/HXQ==
   dependencies:
     "@ge-fnm/action-object" "^2.0.1"
     browser-or-node "^1.2.1"

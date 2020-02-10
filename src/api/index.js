@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { executeCommunication } from '@ge-fnm/communication-selector-module';
+import { executeCommunication } from '@ge-fnm/csm';
 import {
   v1,
   ActionTypeV1,
