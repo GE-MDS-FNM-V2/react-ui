@@ -9,7 +9,7 @@ export const SET_DEVICE_INSPECTOR_ACTIVE_TAB =
   'SET_DEVICE_INSPECTOR_ACTIVE_TAB';
 
 export const queryDeviceInfo = deviceId => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     dispatch({ type: QUERY_DEVICE_INFO, payload: deviceId });
 
     const state = getState();
@@ -19,26 +19,27 @@ export const queryDeviceInfo = deviceId => {
     })[0];
     const api = device.api;
     console.log(device);
-    api
-      .runCommand()
-      .then(systemName => {
-        dispatch({
-          type: QUERY_DEVICE_INFO_SUCCESS,
-          payload: {
-            id: deviceId,
-            data: systemName
-          }
-        });
-      })
-      .catch(error => {
-        dispatch({
-          type: QUERY_DEVICE_INFO_FAILURE,
-          payload: {
-            id: deviceId,
-            error
-          }
-        });
+    try {
+      const result = await api.runCommand();
+      console.log(result);
+      debugger;
+      dispatch({
+        type: QUERY_DEVICE_INFO_SUCCESS,
+        payload: {
+          id: deviceId,
+          data: result
+        }
       });
+    } catch (error) {
+      debugger;
+      dispatch({
+        type: QUERY_DEVICE_INFO_FAILURE,
+        payload: {
+          id: deviceId,
+          error
+        }
+      });
+    }
   };
 };
 

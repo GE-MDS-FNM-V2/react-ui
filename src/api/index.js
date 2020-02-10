@@ -39,22 +39,38 @@ export const createRadioAPI = async (IP_ADDR, USERNAME, PASSWORD) => {
             protocol: ProtocolV1.JSONRPC
           },
           modifyingValue: '',
-          path: ['/serv:services'],
+          path: ['/serv:services/snmp:snmp/agent/enabled'],
           response: undefined,
-          uri: URL
+          uri: IP_ADDR
         })
         .serialize();
 
+      console.log(get_action);
+      debugger;
+
       const data = await executeCommunication(get_action);
-      const newResp = v1.deserialize(data);
-      const yangModel = JSON.parse(newResp.information.response);
-      const parser = new Parser.YangParser();
-      console.log(yangModel);
-      const result = parser.parse(JSON.stringify(yangModel.result.data));
-      console.log(
-        'Here is if snpm is enabled/diabled represented in an internal data model',
-        result
-      );
+
+      try {
+        const newResp = v1.deserialize(data);
+        const yangModel = JSON.parse(newResp.information.response);
+        console.log(
+          'Got back a response from the radio of',
+          yangModel.result.data
+        );
+        console.log('Attempting to parse into internal data model');
+        const parser = new Parser.YangParser();
+        const result = parser.parse(JSON.stringify(yangModel.result.data));
+        console.log(
+          'Here is if snmp is enabled/diabled represented in an internal data model',
+          result
+        );
+        alert(result);
+      } catch (error) {
+        console.error(
+          'Could not parse response into internal data model',
+          error
+        );
+      }
     }
   };
 };
