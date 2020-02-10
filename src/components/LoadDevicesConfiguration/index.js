@@ -77,6 +77,7 @@ export default ({ addDevice }) => {
               devices.forEach(device => {
                 addDevice(device);
               });
+              toggleModal();
             }}
             disabled={!isValid}
           >
@@ -87,17 +88,6 @@ export default ({ addDevice }) => {
           </Button>
         </ModalFooter>
       </Modal>
-
-      {/* <Dropzone onDrop={acceptedFiles => readFile(console.log(acceptedFiles[0]))}>
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <p>Drag 'n' drop some files here, or click to select files</p>
-            </div>
-          </section>
-        )}
-      </Dropzone> */}
     </Row>
   );
 };

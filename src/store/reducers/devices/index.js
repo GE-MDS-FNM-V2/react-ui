@@ -4,10 +4,9 @@ import {
   QUERY_DEVICE_INFO_FAILURE,
   QUERY_DEVICE_INFO_SUCCESS,
   SET_DEVICE_INSPECTOR_ACTIVE_TAB,
-  ADD_DEVICE
+  ADD_DEVICE_SUCCESS,
+  ADD_DEVICE_FAILURE
 } from '../../actions/devices';
-
-import { createRadioAPI } from '../../../api';
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -62,30 +61,20 @@ export default (state = initialState, action) => {
           deviceInspectorSelectedTab: action.payload
         };
       });
-    case ADD_DEVICE:
-      const connectionInfo = action.payload.connectionInfo;
-      const connectionType = connectionInfo.type;
-      if (connectionType === 'IP') {
-        return [
-          ...state,
-          {
-            ...action.payload,
-            api: createRadioAPI(
-              connectionInfo.ipAddr,
-              connectionInfo.username,
-              connectionInfo.password
-            )
-          }
-        ];
-      } else {
-        console.error(
-          'Connection type',
-          connectionType,
-          'currently not supported'
-        );
-        return state;
-      }
-
+    case ADD_DEVICE_SUCCESS:
+      return [
+        ...state,
+        {
+          ...action.payload
+        }
+      ];
+    case ADD_DEVICE_FAILURE:
+      return [
+        ...state,
+        {
+          ...action.payload
+        }
+      ];
     default:
       return state;
   }

@@ -42,7 +42,9 @@ export default ({ devices, selectedDevice, selectDevice }) => {
                       readOnly
                     />
                   </td>
-                  <td>todo - get status</td>
+                  <td>
+                    {device.error ? JSON.stringify(device.error) : 'Connected'}
+                  </td>
                 </tr>
               );
             })}
