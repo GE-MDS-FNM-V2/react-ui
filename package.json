@@ -2,25 +2,32 @@
   "name": "ge-frontend",
   "version": "0.1.0",
   "dependencies": {
-    "@ge-fnm/action-object": "^2.0.1",
-    "@ge-fnm/csm": "^1.0.0",
+    "@ge-fnm/action-object": "^3.0.0",
+    "@ge-fnm/csm": "^1.0.1",
     "@ge-fnm/data-model": "^12.1.0",
-    "axios": "^0.19.0",
-    "bootstrap": "^4.3.1",
-    "classnames": "^2.2.6",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
-    "prettier": "^1.18.2",
-    "prop-types": "^15.7.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
-    "react-dropzone": "^10.1.10",
-    "react-redux": "^7.1.1",
-    "react-scripts": "^3.3.0",
-    "reactstrap": "^8.1.1",
-    "redux": "^4.0.4",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0",
+    "@manaflair/redux-batch": "^1.0.0",
+    "@reduxjs/toolkit": "^1.2.5",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/axios": "^0.14.0",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.20",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.7",
+    "@types/reactstrap": "^8.4.1",
+    "@types/redux-logger": "^3.0.7",
+    "@types/yup": "^0.26.32",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.2.0",
+    "react-scripts": "3.4.0",
+    "reactstrap": "^8.4.1",
+    "redux-logger": "^3.0.6",
+    "typescript": "~3.7.2",
     "yup": "^0.28.1"
   },
   "scripts": {
@@ -28,6 +35,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "proxy": "http://localhost:3001",
   "husky": {
@@ -37,8 +47,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write",
-      "git add"
+      "prettier --single-quote --write"
     ]
   },
   "prettier": {
@@ -55,5 +64,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1"
   }
 }
