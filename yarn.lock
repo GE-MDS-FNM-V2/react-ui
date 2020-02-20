@@ -899,10 +899,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@ge-fnm/action-object@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/action-object/-/action-object-3.0.0.tgz#f1d941610b764f7de8b9379e9328962bcd65bbd6"
-  integrity sha512-37rPbR0lBxlBeLfoscunwfgLBzOcI6VVJBgB5plxOTFVvczT1axE7DQ6PAUCSYENBJwtETsNZFqs9qcXPeKjDw==
+"@ge-fnm/action-object@^3.0.0-next.5":
+  version "3.0.0-next.5"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/action-object/-/action-object-3.0.0-next.5.tgz#ace9ce7d1b988ae781985235efc9960bedc7f19b"
+  integrity sha512-BCYd+ydEoRny+9OMVznUKu6NJ+QfzrTuw7NwDSi6yhKqmkSpl1KCfFkVFN0MYnw3uT/xre8Lg0GeN+PKH++RSA==
 
 "@ge-fnm/csm@^1.0.1":
   version "1.0.1"

@@ -1,12 +1,12 @@
-import { initialState } from "./initialState";
-import { createReducer } from "@reduxjs/toolkit";
+import { initialState } from './initialState';
+import { createReducer } from '@reduxjs/toolkit';
 import {
   addDevice,
   selectDevice,
   initDeviceStart,
   initDeviceSuccess,
   initDeviceFailure
-} from "./actions";
+} from './actions';
 
 // DO NOT dispatch actions from a reducer -> https://stackoverflow.com/questions/36730793/can-i-dispatch-an-action-in-reducer
 export const devicesRootReducer = createReducer(initialState, builder =>
@@ -40,13 +40,12 @@ export const devicesRootReducer = createReducer(initialState, builder =>
     .addCase(initDeviceSuccess, (state, action) => {
       return {
         devices: state.devices.map(device => {
-          if (device.id !== action.payload.deviceID) {
+          if (device.id !== action.payload) {
             return device;
           }
           return {
             ...device,
             loading: false,
-            data: action.payload.data,
             initialized: true
           };
         }),

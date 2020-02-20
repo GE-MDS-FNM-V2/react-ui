@@ -2,7 +2,7 @@
   "name": "ge-frontend",
   "version": "0.1.0",
   "dependencies": {
-    "@ge-fnm/action-object": "^3.0.0",
+    "@ge-fnm/action-object": "^3.0.0-next.5",
     "@ge-fnm/csm": "^1.0.1",
     "@ge-fnm/data-model": "^12.1.0",
     "@manaflair/redux-batch": "^1.0.0",

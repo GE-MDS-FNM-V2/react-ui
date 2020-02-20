@@ -1,14 +1,22 @@
-import { Device } from "../store/devices/types";
-import { executeCommunication } from "@ge-fnm/csm";
-import { v1, ActionTypeV1, ActionObjectInformationV1 } from "@ge-fnm/action-object";
+import { Device } from '../store/devices/types';
+import { executeCommunication } from '@ge-fnm/csm';
+import {
+  v1,
+  ActionTypeV1,
+  ActionObjectInformationV1
+} from '@ge-fnm/action-object';
 
+export type IAPIRunAction = (
+  device: Device,
+  actionInformation: ActionObjectInformationV1
+) => Promise<string>;
 /**
  * The Singleton class defines the `getInstance` method that lets clients access
  * the unique singleton instance.
  */
 export class DeviceApiManager {
   private static instance: DeviceApiManager;
-  private initializedDevices: { [key: string]: string };
+  private initializedDevices: { [key: string]: Device };
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -32,15 +40,22 @@ export class DeviceApiManager {
     return DeviceApiManager.instance;
   }
 
-  public runAction = async (device: Device, actionInformation: ActionObjectInformationV1) => {
-      if(!Object.keys(this.initializedDevices).includes(device.id)){
-            throw new Error(`The Device "${device.id}" has not been initialized yet. Cannot run an action until the device has been initialized`) 
-      }
+  public runAction: IAPIRunAction = async (
+    device: Device,
+    actionInformation: ActionObjectInformationV1
+  ) => {
+    debugger;
+    console.log(this.initializedDevices);
+    if (!Object.keys(this.initializedDevices).includes(device.id)) {
+      throw new Error(
+        `The Device "${device.id}" has not been initialized yet. Cannot run an action until the device has been initialized`
+      );
+    }
 
-      const action = v1.create(actionInformation).serialize()
-      const result = await executeCommunication(action)
-      return result
-  }
+    const action = v1.create(actionInformation).serialize();
+    const result = await executeCommunication(action);
+    return result;
+  };
 
   public initializeDevice = async (device: Device) => {
     let init_action = v1
@@ -53,7 +68,7 @@ export class DeviceApiManager {
           username: device.username,
           password: device.password
         },
-        modifyingValue: "",
+        modifyingValue: '',
         path: [],
         response: {
           data: null,
@@ -63,7 +78,8 @@ export class DeviceApiManager {
       })
       .serialize();
     const result = await executeCommunication(init_action);
-    const resultAsActionObject = v1.deserialize(result)
-    return resultAsActionObject
+    const resultAsActionObject = v1.deserialize(result);
+    this.initializedDevices[device.id] = device;
+    return resultAsActionObject;
   };
 }
