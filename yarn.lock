@@ -899,17 +899,17 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@ge-fnm/action-object@^3.0.0-next.5":
-  version "3.0.0-next.5"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/action-object/-/action-object-3.0.0-next.5.tgz#ace9ce7d1b988ae781985235efc9960bedc7f19b"
-  integrity sha512-BCYd+ydEoRny+9OMVznUKu6NJ+QfzrTuw7NwDSi6yhKqmkSpl1KCfFkVFN0MYnw3uT/xre8Lg0GeN+PKH++RSA==
+"@ge-fnm/action-object@^4.0.0-next.1":
+  version "4.0.0-next.1"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/action-object/-/action-object-4.0.0-next.1.tgz#939fcd38027ddb0867f007eba5e7ec5b091622ff"
+  integrity sha512-5M7zL11yBoeJC9+xiza4AAOA1QmexogwU0qupBOm3OsdcQ0yJ192odAAmZ1iDhD0g7VLJiax4To8YkR3ec0U6g==
 
-"@ge-fnm/csm@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.0.1.tgz#a20d1a3a9d6e92ba237e010a09d08bff165d33af"
-  integrity sha512-69MTyekmiM4gsPLAS1n+5q1aNKbIIloVadR96I+uMVUtqTod2nH8O2Wb/0LamF29kqdHHFj377jJALi9I19OYQ==
+"@ge-fnm/csm@^1.1.0-next.2":
+  version "1.1.0-next.2"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.1.0-next.2.tgz#87d7fa608d91d0cf8de43a4f690c97cfcbbd3ce3"
+  integrity sha512-pByR4BjGaeOOXQFRFrbEFRRffhgShiU93U4Y1DYY4gJ+UMvXt7+IHoivjnP4h1VRW0EVeo+t3mfdwZuZBL19Jw==
   dependencies:
-    "@ge-fnm/perform-action-module" "1.1.0"
+    "@ge-fnm/perform-action-module" "^1.2.0-next.1"
     "@types/browser-or-node" "^1.2.0"
     browser-or-node "^1.2.1"
 
@@ -918,10 +918,10 @@
   resolved "https://registry.yarnpkg.com/@ge-fnm/data-model/-/data-model-12.1.0.tgz#0f262b435206e1be488d819974ec4c97ddc0cb0e"
   integrity sha512-ff0OOx61rLn2RgzXDIRMWiAJrGFa9VaCuRTecmVWu/Z11yKaNWIT5ukU0N8OgXDYiPJCyFDNRUrIuyd296dMNw==
 
-"@ge-fnm/perform-action-module@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/perform-action-module/-/perform-action-module-1.1.0.tgz#2e35debf6156987aee1970b0e2996bc6f0de8e05"
-  integrity sha512-NqoonGc9grEbsffnGxO6ZQJM+gq32IPmFdWQXT7AlzvbccIeIQzSY9TytKRHAFTuvMgodysJHHQQuu4aRWSj3A==
+"@ge-fnm/perform-action-module@^1.2.0-next.1":
+  version "1.2.0-next.1"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/perform-action-module/-/perform-action-module-1.2.0-next.1.tgz#2b3ef8365cca0ebed38d5657326c91b91951177c"
+  integrity sha512-JtX85eYzQRxYZJkjuUFqEwcMAuUVC0F1+QWHGrZbJvOasf6e3drnAdh/Y8twsMaPb7MCR9NWA3jrehgI0UB/HQ==
   dependencies:
     browser-or-node "^1.2.1"
     typescript-map "^0.0.7"
