@@ -904,10 +904,10 @@
   resolved "https://registry.yarnpkg.com/@ge-fnm/action-object/-/action-object-4.0.0.tgz#4a45b065b14ba450c24b2b1d279aced1fcdd6fa1"
   integrity sha512-F5ne6B3GFmhhSP23Tk7h2ko9uByJ9iz/YH/idjcPwGz7h5qY4mm46mQ6OQQ7kZF7hqdeqIjf1FLkHyQ7TIiU6w==
 
-"@ge-fnm/csm@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.1.0.tgz#0e0191a83f33421e3459fa58ad2848f244fc710a"
-  integrity sha512-Kjp6IqKwmDCebDaJcPb+28pGHzZ8j4M0+kRYW+p9EWHWNnHPbwk1tu0tQ9MPnQZbEnA5WOUy7l0JpTSK8VQFaA==
+"@ge-fnm/csm@1.1.0-next.4":
+  version "1.1.0-next.4"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.1.0-next.4.tgz#65fce86306094534178aa1bf92f4b7575145ec74"
+  integrity sha512-NgaudnobrXWxTXlA5URIPFflw9+0Mi8nVq9jgxuQSnAfHJv1vQOcIqID4kHIX8kQALRUvgFhyz62dx+XCe0dSg==
   dependencies:
     "@ge-fnm/perform-action-module" "^1.2.0"
     "@types/browser-or-node" "^1.2.0"

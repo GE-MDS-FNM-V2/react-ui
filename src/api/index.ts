@@ -53,7 +53,10 @@ export class DeviceApiManager {
     }
 
     const action = v1.create(actionInformation).serialize();
-    const result = await executeCommunication(action);
+    const result = await executeCommunication(
+      action,
+      process.env.REACT_APP_CSM_FORWARDING_ADDRESS
+    );
     return result;
   };
 
@@ -77,7 +80,10 @@ export class DeviceApiManager {
         uri: device.uri
       })
       .serialize();
-    const result = await executeCommunication(init_action);
+    const result = await executeCommunication(
+      init_action,
+      process.env.REACT_APP_CSM_FORWARDING_ADDRESS
+    );
     const resultAsActionObject = v1.deserialize(result);
     this.initializedDevices[device.id] = device;
     return resultAsActionObject;
