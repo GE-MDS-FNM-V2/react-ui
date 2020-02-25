@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Row, Button, Spinner } from 'reactstrap';
+import { Table, Spinner } from 'reactstrap';
 import { LoadDevicesConfigurationContainer } from '../../containers/LoadDeviceConfiguration';
 import './index.css';
 import { DevicesState } from '../../store/devices/types';

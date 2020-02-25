@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { BorderCol } from '../BorderCol';
 import { DevicesListContainer } from '../../containers/DevicesList';
 import DeviceInspector from '../../containers/DeviceInspector';

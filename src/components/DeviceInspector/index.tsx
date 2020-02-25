@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  Button,
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Spinner
-} from 'reactstrap';
-
+import { TabContent, Spinner } from 'reactstrap';
 import { DevicesState } from '../../store/devices/types';
-import { IAPIRunAction } from '../../api';
-import { v1, ActionTypeV1, IActionObjectV1 } from '@ge-fnm/action-object';
+import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
 import { useState } from 'react';
 
 export default ({
@@ -19,73 +9,62 @@ export default ({
   runAction
 }: {
   devicesState: DevicesState;
-  runAction: IAPIRunAction;
+  runAction: (deviceID: string, actionObject: ActionObjectV1) => void;
 }) => {
-  const selectedDevice = devicesState.selectedDeviceID;
+  const selectedDeviceID = devicesState.selectedDeviceID;
   const devices = devicesState.devices;
 
   const [inputText, setInputText] = useState('');
-  const [result, setResult] = useState<IActionObjectV1 | undefined>(undefined);
-  if (selectedDevice == null) {
+  if (selectedDeviceID == null) {
     return <p>No device selected</p>;
   }
   const device = devices.filter(device => {
-    return device.id === selectedDevice;
+    return device.id === selectedDeviceID;
   })[0];
 
   const getSNMP = async () => {
-    const snmpResponse = v1.deserialize(
-      await runAction(
-        device,
-        v1.create({
-          version: 1,
-          actionType: ActionTypeV1.GET,
-          commData: {
-            commMethod: device.communicationMethod,
-            protocol: device.protocol,
-            username: device.username,
-            password: device.password
-          },
-          path: ['/serv:services/snmp:snmp/agent/enabled'],
-          response: {
-            error: null,
-            data: null
-          },
-          uri: device.uri
-        }).information
-      )
+    runAction(
+      selectedDeviceID,
+      v1.create({
+        version: 1,
+        actionType: ActionTypeV1.GET,
+        commData: {
+          commMethod: device.communicationMethod,
+          protocol: device.protocol,
+          username: device.username,
+          password: device.password
+        },
+        path: ['/serv:services/snmp:snmp/agent/enabled'],
+        response: {
+          error: null,
+          data: null
+        },
+        uri: device.uri
+      })
     );
-    setResult(snmpResponse);
   };
 
   const setSNMP = async () => {
-    try {
-      const snmpResponse = v1.deserialize(
-        await runAction(
-          device,
-          v1.create({
-            version: 1,
-            actionType: ActionTypeV1.SET,
-            commData: {
-              commMethod: device.communicationMethod,
-              protocol: device.protocol,
-              username: device.username,
-              password: device.password
-            },
-            modifyingValue: inputText,
-            path: ['/serv:services/snmp:snmp/agent/enabled'],
-            response: {
-              error: null,
-              data: null
-            },
-            uri: device.uri
-          }).information
-        )
-      );
-      setResult(snmpResponse);
-    } catch (error) {
-      console.error(JSON.stringify(error, null, 4));
-    }
+    runAction(
+      selectedDeviceID,
+      v1.create({
+        version: 1,
+        actionType: ActionTypeV1.SET,
+        commData: {
+          commMethod: device.communicationMethod,
+          protocol: device.protocol,
+          username: device.username,
+          password: device.password
+        },
+        modifyingValue: inputText,
+        path: ['/serv:services/snmp:snmp/agent/enabled'],
+        response: {
+          error: null,
+          data: null
+        },
+        uri: device.uri
+      })
+    );
   };
 
   return (
@@ -105,7 +84,6 @@ export default ({
             <option>false</option>
           </select>
           <button onClick={() => setSNMP()}>Set SNMP value</button>
-          <pre>{JSON.stringify(result, null, 4)}</pre>
         </TabContent>
 
         // <TabContent>

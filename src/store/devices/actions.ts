@@ -2,12 +2,42 @@ import { createAction } from '@reduxjs/toolkit';
 import { Device } from './types';
 import { AppThunk } from '..';
 import { DeviceApiManager } from '../../api';
+import { ActionObjectV1 } from '@ge-fnm/action-object';
 
 export const selectAndInitDevice = (
   deviceID: string
 ): AppThunk => async dispatch => {
   dispatch(selectDevice(deviceID));
   dispatch(initDevice(deviceID));
+};
+
+export const runAction = (
+  deviceID: string,
+  actionObject: ActionObjectV1
+): AppThunk => async dispatch => {
+  dispatch(
+    runActionStart({
+      deviceID,
+      actionObject
+    })
+  );
+  const apimanager = DeviceApiManager.getInstance();
+  try {
+    const data = await apimanager.runAction(deviceID, actionObject);
+    dispatch(
+      runActionSuccess({
+        deviceID,
+        data
+      })
+    );
+  } catch (error) {
+    dispatch(
+      runActionFailure({
+        deviceID,
+        error
+      })
+    );
+  }
 };
 
 export const addDevice = createAction<Device, 'ADD_DEVICE'>('ADD_DEVICE');
@@ -26,9 +56,13 @@ export const initDeviceFailure = createAction<
   'INIT_DEVICE_FAILURE'
 >('INIT_DEVICE_FAILURE');
 
-export const runActionStart = createAction<string, 'RUN_ACTION_START'>(
+export const runActionStart = createAction<
+  {
+    deviceID: string;
+    actionObject: ActionObjectV1;
+  },
   'RUN_ACTION_START'
-);
+>('RUN_ACTION_START');
 export const runActionSuccess = createAction<
   { deviceID: string; data: any },
   'RUN_ACTION_SUCCESS'

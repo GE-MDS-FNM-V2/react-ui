@@ -1,14 +1,10 @@
 import { Device } from '../store/devices/types';
 import { executeCommunication } from '@ge-fnm/csm';
-import {
-  v1,
-  ActionTypeV1,
-  ActionObjectInformationV1
-} from '@ge-fnm/action-object';
+import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
 
 export type IAPIRunAction = (
-  device: Device,
-  actionInformation: ActionObjectInformationV1
+  deviceID: string,
+  actionObject: ActionObjectV1
 ) => Promise<string>;
 /**
  * The Singleton class defines the `getInstance` method that lets clients access
@@ -41,19 +37,16 @@ export class DeviceApiManager {
   }
 
   public runAction: IAPIRunAction = async (
-    device: Device,
-    actionInformation: ActionObjectInformationV1
+    deviceID: string,
+    actionObject: ActionObjectV1
   ) => {
-    debugger;
-    console.log(this.initializedDevices);
-    if (!Object.keys(this.initializedDevices).includes(device.id)) {
+    if (!Object.keys(this.initializedDevices).includes(deviceID)) {
       throw new Error(
-        `The Device "${device.id}" has not been initialized yet. Cannot run an action until the device has been initialized`
+        `The Device "${deviceID}" has not been initialized yet. Cannot run an action until the device has been initialized`
       );
     }
-
-    const action = v1.create(actionInformation).serialize();
-    const result = await executeCommunication(action);
+    debugger;
+    const result = await executeCommunication(actionObject.serialize());
     return result;
   };
 
