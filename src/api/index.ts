@@ -7,11 +7,11 @@ export const DEFAULT_ROOT_NODES = [
   {
     name: 'interfaces',
     path: 'if:interfaces'
-  },
-  {
-    name: 'services',
-    path: 'serv:services'
   }
+  // {
+  //   name: 'services',
+  //   path: 'serv:services'
+  // }
 ];
 
 export type IAPIRunAction = (
@@ -24,7 +24,12 @@ export type IAPIRunAction = (
  */
 export class DeviceApiManager {
   private static instance: DeviceApiManager;
-  private initializedDevices: { [key: string]: Device };
+  private initializedDevices: {
+    [key: string]: {
+      deviceObject: Device;
+      data?: DataType;
+    };
+  };
 
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -79,6 +84,7 @@ export class DeviceApiManager {
           const parser = new YangParser();
           const parsed = parser.parseData(data);
 
+          this.getDeviceByID(deviceID).data = parsed;
           return parsed;
         } else {
           throw response.error;
@@ -96,14 +102,14 @@ export class DeviceApiManager {
     const results = DEFAULT_ROOT_NODES.map(async rootNode => {
       const actionObject = v1.create({
         version: 1,
-        uri: device.uri,
+        uri: device.deviceObject.uri,
         actionType: ActionTypeV1.GET,
         path: [rootNode.path],
         commData: {
-          commMethod: device.communicationMethod,
-          protocol: device.protocol,
-          username: device.username,
-          password: device.password
+          commMethod: device.deviceObject.communicationMethod,
+          protocol: device.deviceObject.protocol,
+          username: device.deviceObject.username,
+          password: device.deviceObject.password
         }
       });
       const response = await this.runAction(deviceID, actionObject);
@@ -155,7 +161,9 @@ export class DeviceApiManager {
       .serialize();
     const result = await executeCommunication(init_action);
     const resultAsActionObject = v1.deserialize(result);
-    this.initializedDevices[device.id] = device;
+    this.initializedDevices[device.id] = {
+      deviceObject: device
+    };
     return resultAsActionObject;
   };
 
