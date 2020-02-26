@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "@ge-fnm/action-object": "^4.0.0",
-    "@ge-fnm/csm": "1.1.0-next.4",
+    "@ge-fnm/csm": "^1.1.1",
     "@ge-fnm/data-model": "^12.1.0",
     "@ge-fnm/perform-action-module": "^1.2.0-next.1",
     "@manaflair/redux-batch": "^1.0.0",
