@@ -82,8 +82,11 @@ const initDevice = (deviceID: string): AppThunk => async (
     const device = devices.filter(device => {
       return device.id === deviceID;
     })[0];
-    await DeviceApiManager.getInstance().initializeDevice(device);
+    const apimanager = DeviceApiManager.getInstance();
+    await apimanager.initializeDevice(device);
     dispatch(initDeviceSuccess(deviceID));
+    const root = await apimanager.getEntireSchema(deviceID);
+    console.log('root', root);
   } catch (error) {
     dispatch(
       initDeviceFailure({

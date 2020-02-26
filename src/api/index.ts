@@ -1,11 +1,23 @@
-import { Device } from '../store/devices/types';
+import { Device, ERROR_NO_RESPONSE_FOUND } from '../store/devices/types';
 import { executeCommunication } from '@ge-fnm/csm';
 import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
+import { YangParser, DataType, Map } from '@ge-fnm/data-model';
+
+export const DEFAULT_ROOT_NODES = [
+  {
+    name: 'interfaces',
+    path: 'if:interfaces'
+  },
+  {
+    name: 'services',
+    path: 'serv:services'
+  }
+];
 
 export type IAPIRunAction = (
   deviceID: string,
   actionObject: ActionObjectV1
-) => Promise<string>;
+) => Promise<DataType>;
 /**
  * The Singleton class defines the `getInstance` method that lets clients access
  * the unique singleton instance.
@@ -45,9 +57,80 @@ export class DeviceApiManager {
         `The Device "${deviceID}" has not been initialized yet. Cannot run an action until the device has been initialized`
       );
     }
-    debugger;
-    const result = await executeCommunication(actionObject.serialize());
-    return result;
+    const serializedResponseActionObject = await executeCommunication(
+      actionObject.serialize()
+    );
+    const deserializedResponseActionObject = v1.deserialize(
+      serializedResponseActionObject
+    );
+
+    const response = deserializedResponseActionObject.information.response;
+
+    try {
+      if (response) {
+        if (response.data) {
+          const rawReponse = response.data;
+          const jsonResponse = JSON.parse(rawReponse);
+          const error = jsonResponse.error;
+          if (error) {
+            throw error;
+          }
+          const data = jsonResponse.result.data;
+          const parser = new YangParser();
+          const parsed = parser.parseData(data);
+
+          return parsed;
+        } else {
+          throw response.error;
+        }
+      } else {
+        throw ERROR_NO_RESPONSE_FOUND;
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  public getEntireSchema = async (deviceID: string): Promise<Map> => {
+    const device = this.getDeviceByID(deviceID);
+    const results = DEFAULT_ROOT_NODES.map(async rootNode => {
+      const actionObject = v1.create({
+        version: 1,
+        uri: device.uri,
+        actionType: ActionTypeV1.GET,
+        path: [rootNode.path],
+        commData: {
+          commMethod: device.communicationMethod,
+          protocol: device.protocol,
+          username: device.username,
+          password: device.password
+        }
+      });
+      const response = await this.runAction(deviceID, actionObject);
+      return {
+        name: rootNode.name,
+        path: rootNode.path,
+        response
+      };
+    });
+
+    const root = new Map({
+      name: 'root',
+      children: undefined,
+      permissions: {
+        create: true,
+        read: true,
+        update: true,
+        delete: true,
+        execute: true
+      }
+    });
+
+    await (await Promise.all(results)).forEach(result => {
+      root.set(result.name, result.response);
+    });
+
+    return root;
   };
 
   public initializeDevice = async (device: Device) => {
@@ -74,5 +157,9 @@ export class DeviceApiManager {
     const resultAsActionObject = v1.deserialize(result);
     this.initializedDevices[device.id] = device;
     return resultAsActionObject;
+  };
+
+  public getDeviceByID = (deviceID: string) => {
+    return this.initializedDevices[deviceID];
   };
 }

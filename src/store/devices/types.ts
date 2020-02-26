@@ -27,3 +27,5 @@ export type DevicesState = {
   devices: DevicesList;
   selectedDeviceID: string | null;
 };
+
+export const ERROR_NO_RESPONSE_FOUND = new Error('ERROR - no response found');
