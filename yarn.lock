@@ -913,10 +913,10 @@
     "@types/browser-or-node" "^1.2.0"
     browser-or-node "^1.2.1"
 
-"@ge-fnm/data-model@^12.1.0":
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/data-model/-/data-model-12.1.0.tgz#0f262b435206e1be488d819974ec4c97ddc0cb0e"
-  integrity sha512-ff0OOx61rLn2RgzXDIRMWiAJrGFa9VaCuRTecmVWu/Z11yKaNWIT5ukU0N8OgXDYiPJCyFDNRUrIuyd296dMNw==
+"@ge-fnm/data-model@^12.2.0":
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/data-model/-/data-model-12.2.0.tgz#4d53a8641825344e774e093dbd84ac04318a56f5"
+  integrity sha512-cRrQspj3MxYhX0P7vcVERzLE8MS2KacuvTMAMkU5LJHpjtXB9p42xhf07Ko8iTwNq3Z7EcKqXdeFzwbbl+UbAA==
 
 "@ge-fnm/perform-action-module@^1.2.0", "@ge-fnm/perform-action-module@^1.2.0-next.1":
   version "1.2.0"
