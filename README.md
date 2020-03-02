@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Dependencies
+
+This application requires a backend endpoint hosting the [GE FNM Communication Selector Module](https://github.com/GE-MDS-FNM-V2/csm) for full functionality. The easiest way to get up and running is to run a local instance of the [GE Electron Application](https://github.com/GE-MDS-FNM-V2/backend), which is already specified as the default endpoint to hit in this application's `.env` files.
+
 ## Available Scripts
 
 In the project directory, you can run:
