@@ -904,12 +904,11 @@
   resolved "https://registry.yarnpkg.com/@ge-fnm/action-object/-/action-object-4.0.0.tgz#4a45b065b14ba450c24b2b1d279aced1fcdd6fa1"
   integrity sha512-F5ne6B3GFmhhSP23Tk7h2ko9uByJ9iz/YH/idjcPwGz7h5qY4mm46mQ6OQQ7kZF7hqdeqIjf1FLkHyQ7TIiU6w==
 
-"@ge-fnm/csm@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.1.0.tgz#0e0191a83f33421e3459fa58ad2848f244fc710a"
-  integrity sha512-Kjp6IqKwmDCebDaJcPb+28pGHzZ8j4M0+kRYW+p9EWHWNnHPbwk1tu0tQ9MPnQZbEnA5WOUy7l0JpTSK8VQFaA==
+"@ge-fnm/csm@^1.2.0-next.3":
+  version "1.2.0-next.3"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/csm/-/csm-1.2.0-next.3.tgz#79852484df5b517c4d98d28f5f6725517d4cf633"
+  integrity sha512-zZrfTmceU4elwU6dBbRl932EZ2S11Z+HpV/hyX/J5NC/+mK5iU08w+0QtP4X9bWbH59lm1Anjo8g4t1+jkQtBw==
   dependencies:
-    "@ge-fnm/perform-action-module" "^1.2.0"
     "@types/browser-or-node" "^1.2.0"
     browser-or-node "^1.2.1"
 
@@ -918,10 +917,10 @@
   resolved "https://registry.yarnpkg.com/@ge-fnm/data-model/-/data-model-12.2.0.tgz#4d53a8641825344e774e093dbd84ac04318a56f5"
   integrity sha512-cRrQspj3MxYhX0P7vcVERzLE8MS2KacuvTMAMkU5LJHpjtXB9p42xhf07Ko8iTwNq3Z7EcKqXdeFzwbbl+UbAA==
 
-"@ge-fnm/perform-action-module@^1.2.0", "@ge-fnm/perform-action-module@^1.2.0-next.1":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@ge-fnm/perform-action-module/-/perform-action-module-1.2.0.tgz#f596d4158bc1b78b7e0f96fe77b4433019c7ca50"
-  integrity sha512-T0U23Basgx6IByVxfQ3S4UN6r7Yn1c3ZXfaFCLgOQiwCP7gZMA6CI6RUfM66U48J2ftWZzXUXHKo0w21qjct4A==
+"@ge-fnm/perform-action-module@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@ge-fnm/perform-action-module/-/perform-action-module-1.2.2.tgz#51851c5f824aa17ba6874f60f3c8ca8bc6c85097"
+  integrity sha512-2wZfc4vLlqDlLQQsSkGoalCU85BK18LQu/ahjYu3Oj02pn2cGCfSD0U7aW5xnsS7jK1PCJmEDO6j1WDa81h/DQ==
   dependencies:
     browser-or-node "^1.2.1"
     typescript-map "^0.0.7"

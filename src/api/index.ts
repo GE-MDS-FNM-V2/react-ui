@@ -7,11 +7,11 @@ export const DEFAULT_ROOT_NODES = [
   {
     name: 'interfaces',
     path: 'if:interfaces'
+  },
+  {
+    name: 'services',
+    path: 'serv:services'
   }
-  // {
-  //   name: 'services',
-  //   path: 'serv:services'
-  // }
 ];
 
 export type IAPIRunAction = (
@@ -63,7 +63,8 @@ export class DeviceApiManager {
       );
     }
     const serializedResponseActionObject = await executeCommunication(
-      actionObject.serialize()
+      actionObject.serialize(),
+      process.env.REACT_APP_CSM_FORWARDING_ADDRESS
     );
     const deserializedResponseActionObject = v1.deserialize(
       serializedResponseActionObject
@@ -159,7 +160,10 @@ export class DeviceApiManager {
         uri: device.uri
       })
       .serialize();
-    const result = await executeCommunication(init_action);
+    const result = await executeCommunication(
+      init_action,
+      process.env.REACT_APP_CSM_FORWARDING_ADDRESS
+    );
     const resultAsActionObject = v1.deserialize(result);
     this.initializedDevices[device.id] = {
       deviceObject: device
