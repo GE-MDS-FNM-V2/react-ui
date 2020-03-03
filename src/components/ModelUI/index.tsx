@@ -1,5 +1,7 @@
 import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { useState } from 'react';
+import { Input, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
 import {
   IDataTypeKind,
   DataType,
@@ -10,7 +12,16 @@ import {
   Set
 } from '@ge-fnm/data-model';
 
-const ModelUI = ({ model, path }: { model: DataType; path?: string[] }) => {
+export const ModelUI = ({
+  model,
+  path,
+  setValue
+}: {
+  model: DataType;
+  path?: string[];
+  setValue: (valuePath: string, modifyingValue: string) => void;
+}) => {
+  const [inputValue, setInputValue] = useState('');
   const currentPath = path || [];
   console.log(model);
   if (model.getObjectType() === IDataTypeKind.Action) {
@@ -34,6 +45,7 @@ const ModelUI = ({ model, path }: { model: DataType; path?: string[] }) => {
                   <ModelUI
                     model={value}
                     path={[...currentPath, 'TODO - action']}
+                    setValue={setValue}
                   />
                 </ListGroupItem>
               );
@@ -50,6 +62,13 @@ const ModelUI = ({ model, path }: { model: DataType; path?: string[] }) => {
           {[...currentPath].join('/')}
         </label>
         <p>Value: {JSON.stringify(leafModel.getValue())}</p>
+        {/* <Button onClick={() => setValue([...currentPath].join('/',))}>SET</Button>  */}
+        <Input type="text" onChange={e => setInputValue(e.target.value)} />
+        <Button
+          onClick={() => setValue([...currentPath].join('/'), inputValue)}
+        >
+          SET
+        </Button>
         <p>
           Permissions:
           {Object.entries(leafModel.getPermissions()).map(([k, v]) => {
@@ -78,7 +97,11 @@ const ModelUI = ({ model, path }: { model: DataType; path?: string[] }) => {
             Object.entries(mapModel.children).map(([key, value]) => {
               return (
                 <ListGroupItem>
-                  <ModelUI model={value} path={[...currentPath, key]} />
+                  <ModelUI
+                    model={value}
+                    path={[...currentPath, key]}
+                    setValue={setValue}
+                  />
                 </ListGroupItem>
               );
             })}

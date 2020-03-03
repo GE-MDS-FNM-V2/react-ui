@@ -137,6 +137,7 @@ export class DeviceApiManager {
       root.set(result.name, result.response);
     });
 
+    this.getDeviceByID(deviceID).data = root;
     return root;
   };
 

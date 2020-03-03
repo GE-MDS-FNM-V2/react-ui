@@ -26,6 +26,29 @@ export default ({
     return device.id === selectedDeviceID;
   })[0];
 
+  const setValue = async (valuePath: string, modifyingValue: string) => {
+    runAction(
+      selectedDeviceID,
+      v1.create({
+        version: 1,
+        actionType: ActionTypeV1.SET,
+        commData: {
+          commMethod: device.communicationMethod,
+          protocol: device.protocol,
+          username: device.username,
+          password: device.password
+        },
+        modifyingValue: modifyingValue,
+        path: [valuePath],
+        response: {
+          error: null,
+          data: null
+        },
+        uri: device.uri
+      })
+    );
+  };
+
   // const getSNMP = async () => {
   //   runAction(
   //     selectedDeviceID,
@@ -80,7 +103,7 @@ export default ({
         <TabContent>
           {/* <pre>{JSON.stringify(device, null, 4)}</pre>
           <button onClick={() => getSNMP()}>Get SNMP value</button> */}
-          {deviceData && <ModelUI model={deviceData} />}
+          {deviceData && <ModelUI model={deviceData} setValue={setValue} />}
           {/* <select
             value={inputText}
             onChange={e => setInputText(e.target.value)}
