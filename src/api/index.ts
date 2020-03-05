@@ -62,6 +62,18 @@ export class DeviceApiManager {
         `The Device "${deviceID}" has not been initialized yet. Cannot run an action until the device has been initialized`
       );
     }
+    // use this as a switch board to select the proper action to be performed
+    if (actionObject.information.actionType === ActionTypeV1.SET) {
+      return this.runSetAction(deviceID, actionObject);
+    } else {
+      return this.runGetAction(deviceID, actionObject);
+    }
+  };
+
+  private runGetAction: IAPIRunAction = async (
+    deviceID: string,
+    actionObject: ActionObjectV1
+  ) => {
     const serializedResponseActionObject = await executeCommunication(
       actionObject.serialize(),
       process.env.REACT_APP_CSM_FORWARDING_ADDRESS
@@ -96,6 +108,18 @@ export class DeviceApiManager {
     } catch (error) {
       throw error;
     }
+  };
+
+  private runSetAction: IAPIRunAction = async (
+    deviceID: string,
+    actionObject: ActionObjectV1
+  ) => {
+    // TODO: do smart error checking on this object
+    const serializedResponseActionObject = await executeCommunication(
+      actionObject.serialize(),
+      process.env.REACT_APP_CSM_FORWARDING_ADDRESS
+    );
+    return this.getEntireSchema(deviceID);
   };
 
   public getEntireSchema = async (deviceID: string): Promise<Map> => {
