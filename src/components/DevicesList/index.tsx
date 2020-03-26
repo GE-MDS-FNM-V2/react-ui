@@ -45,7 +45,7 @@ export default ({
                     <input type="password" value={device.password} readOnly />
                   </td>
                   <td>
-                    {device.loading && <Spinner />}
+                    {device.loading.length > 0 && <Spinner />}
                     {device.errors.length > 0 && JSON.stringify(device.errors)}
                     {device.errors.length === 0 &&
                       !device.initialized &&

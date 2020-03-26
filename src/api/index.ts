@@ -27,7 +27,7 @@ export type IAPIRunAction = (
   actionObject: ActionObjectV1
 ) => Promise<IAPIRunActionResult>;
 
-const extractPathFromActionObject = (
+export const extractPathFromActionObject = (
   actionObject: ActionObjectV1
 ): string[] => {
   if (actionObject.information.path) {

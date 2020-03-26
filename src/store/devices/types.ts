@@ -20,7 +20,7 @@ export type Device = {
   protocol: ProtocolV1;
   username?: string;
   password?: string;
-  loading?: boolean;
+  loading: string[][];
   data?: any;
   errors: DeviceErrorType[];
   initialized?: boolean;

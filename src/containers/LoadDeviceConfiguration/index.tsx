@@ -27,6 +27,7 @@ export const LoadDevicesConfigurationContainer = () => {
       password: deviceConfig.password,
       communicationMethod: deviceConfig.communicationMethod,
       protocol: deviceConfig.protocol,
+      loading: [],
       errors: []
     };
     const result = await addDevice(device);

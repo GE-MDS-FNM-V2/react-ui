@@ -1,6 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
-import { Input, Button, ListGroup, ListGroupItem, Alert } from 'reactstrap';
+import {
+  Input,
+  Button,
+  ListGroup,
+  ListGroupItem,
+  Alert,
+  Spinner
+} from 'reactstrap';
 import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
 import {
   IDataTypeKind,
@@ -17,12 +24,14 @@ export const ModelUI = ({
   model,
   path,
   setValue,
-  errors
+  errors,
+  loading
 }: {
   model: DataType;
   path?: string[];
   setValue: (valuePath: string, modifyingValue: string) => void;
   errors: DeviceErrorType[];
+  loading: string[][];
 }) => {
   const [inputValue, setInputValue] = useState('');
   const currentPath = path || [];
@@ -36,6 +45,15 @@ export const ModelUI = ({
       return <Alert color="danger">{err.errorObj.message}</Alert>;
     });
 
+  const loadingForThisNode = loading
+    .filter(
+      // json.stringify is a quick and easy way to check to see if the arrays are equal
+      loadingPath => JSON.stringify(loadingPath) === JSON.stringify(currentPath)
+    )
+    .map(loadingPath => {
+      return <Spinner />;
+    });
+
   if (model.getObjectType() === IDataTypeKind.Action) {
     let actionModel = model as Action;
     return (
@@ -43,6 +61,7 @@ export const ModelUI = ({
         <label className="d-flex" style={{ fontWeight: 'bold' }}>
           {actionModel.getObjectType()}
         </label>
+        {loadingForThisNode}
         {errorsForThisNode}
         <p>Number of Runs: {actionModel.numberRuns}</p>
         <p>Object Type: {actionModel.objectType}</p>
@@ -60,6 +79,7 @@ export const ModelUI = ({
                     path={[...currentPath, 'TODO - action']}
                     errors={errors}
                     setValue={setValue}
+                    loading={loading}
                   />
                 </ListGroupItem>
               );
@@ -76,6 +96,7 @@ export const ModelUI = ({
           {[...currentPath].join('/')}
         </label>
         <p>Value: {JSON.stringify(leafModel.getValue())}</p>
+        {loadingForThisNode}
         {errorsForThisNode}
         <Input type="text" onChange={e => setInputValue(e.target.value)} />
         <Button
@@ -102,6 +123,7 @@ export const ModelUI = ({
         <label className="d-flex" style={{ fontWeight: 'bold' }}>
           {[...currentPath].join('/')}
         </label>
+        {loadingForThisNode}
         {errorsForThisNode}
         <ListGroup>
           {mapModel.children && mapModel.length === 0 && (
@@ -117,6 +139,7 @@ export const ModelUI = ({
                     path={[...currentPath, key]}
                     setValue={setValue}
                     errors={errors}
+                    loading={loading}
                   />
                 </ListGroupItem>
               );

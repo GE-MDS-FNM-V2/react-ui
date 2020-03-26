@@ -10,6 +10,7 @@ import {
   runActionSuccess,
   runActionFailure
 } from './actions';
+import { extractPathFromActionObject } from '../../api';
 
 // DO NOT dispatch actions from a reducer -> https://stackoverflow.com/questions/36730793/can-i-dispatch-an-action-in-reducer
 export const devicesRootReducer = createReducer(initialState, builder =>
@@ -43,7 +44,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           }
           return {
             ...device,
-            loading: true
+            loading: [[]]
           };
         }),
         selectedDeviceID: state.selectedDeviceID
@@ -57,7 +58,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           }
           return {
             ...device,
-            loading: false,
+            loading: [],
             initialized: true
           };
         }),
@@ -72,7 +73,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           }
           return {
             ...device,
-            loading: false,
+            loading: [],
             error: action.payload.error
           };
         }),
@@ -90,7 +91,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           }
           return {
             ...device,
-            loading: true
+            loading: [extractPathFromActionObject(action.payload.actionObject)]
           };
         }),
         selectedDeviceID: state.selectedDeviceID
@@ -104,7 +105,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           }
           return {
             ...device,
-            loading: false,
+            loading: [],
             data: action.payload.data,
             errors: []
           };
@@ -120,7 +121,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           }
           return {
             ...device,
-            loading: false,
+            loading: [],
             errors: action.payload.errors
           };
         }),
