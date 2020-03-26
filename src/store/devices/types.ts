@@ -8,6 +8,11 @@ export type DeviceFileConfiguration = {
   password?: string;
 };
 
+export type DeviceErrorType = {
+  errorObj: any;
+  path: string[];
+};
+
 export type Device = {
   id: string;
   uri: string;
@@ -17,7 +22,7 @@ export type Device = {
   password?: string;
   loading?: boolean;
   data?: any;
-  error?: any;
+  errors: DeviceErrorType[];
   initialized?: boolean;
 };
 

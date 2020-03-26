@@ -1,4 +1,8 @@
-import { Device, ERROR_NO_RESPONSE_FOUND } from '../store/devices/types';
+import {
+  Device,
+  ERROR_NO_RESPONSE_FOUND,
+  DeviceErrorType
+} from '../store/devices/types';
 import { executeCommunication } from '@ge-fnm/csm';
 import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
 import { YangParser, DataType, Map } from '@ge-fnm/data-model';
@@ -14,10 +18,24 @@ export const DEFAULT_ROOT_NODES = [
   }
 ];
 
+export type IAPIRunActionResult = {
+  errors?: DeviceErrorType[];
+  data?: DataType;
+};
 export type IAPIRunAction = (
   deviceID: string,
   actionObject: ActionObjectV1
-) => Promise<DataType>;
+) => Promise<IAPIRunActionResult>;
+
+const extractPathFromActionObject = (
+  actionObject: ActionObjectV1
+): string[] => {
+  if (actionObject.information.path) {
+    return actionObject.information.path?.join('').split('/'); // this is caused by a bug in pam. When it is fixed this will need to be changed
+  } else {
+    return [];
+  }
+};
 /**
  * The Singleton class defines the `getInstance` method that lets clients access
  * the unique singleton instance.
@@ -73,7 +91,7 @@ export class DeviceApiManager {
   private runGetAction: IAPIRunAction = async (
     deviceID: string,
     actionObject: ActionObjectV1
-  ) => {
+  ): Promise<IAPIRunActionResult> => {
     const serializedResponseActionObject = await executeCommunication(
       actionObject.serialize(),
       process.env.REACT_APP_CSM_FORWARDING_ADDRESS
@@ -98,28 +116,86 @@ export class DeviceApiManager {
           const parsed = parser.parseData(data);
 
           this.getDeviceByID(deviceID).data = parsed;
-          return parsed;
+          return {
+            data: parsed
+          };
         } else {
-          throw response.error;
+          throw response.error; // to be caught down below
         }
       } else {
-        throw ERROR_NO_RESPONSE_FOUND;
+        throw ERROR_NO_RESPONSE_FOUND; // to be caught down below
       }
     } catch (error) {
-      throw error;
+      return {
+        errors: [
+          {
+            errorObj: error,
+            path: extractPathFromActionObject(actionObject)
+          }
+        ]
+      };
     }
   };
 
   private runSetAction: IAPIRunAction = async (
     deviceID: string,
     actionObject: ActionObjectV1
-  ) => {
-    // TODO: do smart error checking on this object
-    const serializedResponseActionObject = await executeCommunication(
-      actionObject.serialize(),
-      process.env.REACT_APP_CSM_FORWARDING_ADDRESS
-    );
-    return this.getEntireSchema(deviceID);
+  ): Promise<IAPIRunActionResult> => {
+    try {
+      const serializedResponseActionObject = await executeCommunication(
+        actionObject.serialize(),
+        process.env.REACT_APP_CSM_FORWARDING_ADDRESS
+      );
+
+      // If we got a response from the radio, but the response was some type of error
+      const deserializedResponseActionObject = v1.deserialize(
+        serializedResponseActionObject
+      );
+      if (deserializedResponseActionObject.information.response?.error) {
+        throw new Error(
+          deserializedResponseActionObject.information.response?.error
+        ); // caught down below
+      }
+
+      //If everything worked
+      const data = await this.getEntireSchema(deviceID); // IF YOU CHANGE THIS, please read comment below about performance optimization
+      return {
+        data
+      };
+    } catch (error) {
+      // this would be something like a network connection error
+      debugger;
+      return {
+        errors: [
+          {
+            errorObj: error,
+            path: extractPathFromActionObject(actionObject)
+          }
+        ]
+      };
+    }
+
+    /**
+     * PERFORMANCE OPTIMIZATION
+     * If performance becomes too slow, we might not want to refetch the entire schema (this.getEntireSchema)
+     * but for now this is fine and a lot cleaner than the alternative
+     *
+     * If we were to do the alternative of only re-fetching the updated node, we should also investigate if nodes can affect
+     * nodes that are not its children.
+     *
+     *
+     * For example, I think the following might happen in some cases (not confirmed, just a hunch)
+     *
+     * You modify A.property and it somehow changed B.property even though B is not a child of A
+     * Ex:
+     * {
+     *    A: ...,
+     *    B: ...
+     *
+     * }
+     *
+     * The bug might arise when you think you only have to refetch node A, but now node B is out of date
+     */
   };
 
   public getEntireSchema = async (deviceID: string): Promise<Map> => {
@@ -158,9 +234,12 @@ export class DeviceApiManager {
     });
 
     await (await Promise.all(results)).forEach(result => {
-      root.set(result.name, result.response);
+      // This is dirty, but only times this would break is if a configured ROOT_NODE isnt valid, or the network disconnected inbetween root node requests
+      root.set(result.name, result.response.data as Map);
     });
 
+    // Eventually we might want to make this data property immutable, and instead
+    // almost "version" the data property under a uuid
     this.getDeviceByID(deviceID).data = root;
     return root;
   };

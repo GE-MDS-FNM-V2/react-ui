@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Input, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import { Input, Button, ListGroup, ListGroupItem, Alert } from 'reactstrap';
 import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
 import {
   IDataTypeKind,
@@ -11,19 +11,31 @@ import {
   Map,
   Set
 } from '@ge-fnm/data-model';
+import { DeviceErrorType } from '../../store/devices/types';
 
 export const ModelUI = ({
   model,
   path,
-  setValue
+  setValue,
+  errors
 }: {
   model: DataType;
   path?: string[];
   setValue: (valuePath: string, modifyingValue: string) => void;
+  errors: DeviceErrorType[];
 }) => {
   const [inputValue, setInputValue] = useState('');
   const currentPath = path || [];
-  console.log(model);
+
+  const errorsForThisNode = errors
+    .filter(
+      // json.stringify is a quick and easy way to check to see if the arrays are equal
+      err => JSON.stringify(err.path) === JSON.stringify(currentPath)
+    )
+    .map(err => {
+      return <Alert color="danger">{err.errorObj.message}</Alert>;
+    });
+
   if (model.getObjectType() === IDataTypeKind.Action) {
     let actionModel = model as Action;
     return (
@@ -31,6 +43,7 @@ export const ModelUI = ({
         <label className="d-flex" style={{ fontWeight: 'bold' }}>
           {actionModel.getObjectType()}
         </label>
+        {errorsForThisNode}
         <p>Number of Runs: {actionModel.numberRuns}</p>
         <p>Object Type: {actionModel.objectType}</p>
         <ListGroup>
@@ -45,6 +58,7 @@ export const ModelUI = ({
                   <ModelUI
                     model={value}
                     path={[...currentPath, 'TODO - action']}
+                    errors={errors}
                     setValue={setValue}
                   />
                 </ListGroupItem>
@@ -55,14 +69,14 @@ export const ModelUI = ({
     );
   } else if (model.getObjectType() === IDataTypeKind.Leaf) {
     let leafModel = model as Leaf;
-    console.log(leafModel.getValue());
+
     return (
       <React.Fragment>
         <label className="d-flex" style={{ fontWeight: 'bold' }}>
           {[...currentPath].join('/')}
         </label>
         <p>Value: {JSON.stringify(leafModel.getValue())}</p>
-        {/* <Button onClick={() => setValue([...currentPath].join('/',))}>SET</Button>  */}
+        {errorsForThisNode}
         <Input type="text" onChange={e => setInputValue(e.target.value)} />
         <Button
           onClick={() => setValue([...currentPath].join('/'), inputValue)}
@@ -88,6 +102,7 @@ export const ModelUI = ({
         <label className="d-flex" style={{ fontWeight: 'bold' }}>
           {[...currentPath].join('/')}
         </label>
+        {errorsForThisNode}
         <ListGroup>
           {mapModel.children && mapModel.length === 0 && (
             <p>No items in list...</p>
@@ -101,6 +116,7 @@ export const ModelUI = ({
                     model={value}
                     path={[...currentPath, key]}
                     setValue={setValue}
+                    errors={errors}
                   />
                 </ListGroupItem>
               );

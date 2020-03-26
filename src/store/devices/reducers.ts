@@ -105,7 +105,8 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           return {
             ...device,
             loading: false,
-            data: action.payload.data
+            data: action.payload.data,
+            errors: []
           };
         }),
         selectedDeviceID: state.selectedDeviceID
@@ -120,7 +121,7 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           return {
             ...device,
             loading: false,
-            error: action.payload.error
+            errors: action.payload.errors
           };
         }),
         selectedDeviceID: state.selectedDeviceID

@@ -23,18 +23,27 @@ export const runAction = (
   );
   const apimanager = DeviceApiManager.getInstance();
   try {
-    const data = await apimanager.runAction(deviceID, actionObject);
-    dispatch(
-      runActionSuccess({
-        deviceID,
-        data
-      })
-    );
+    const response = await apimanager.runAction(deviceID, actionObject);
+    if (response.errors) {
+      dispatch(
+        runActionFailure({
+          deviceID,
+          errors: response.errors
+        })
+      );
+    } else {
+      dispatch(
+        runActionSuccess({
+          deviceID,
+          data: response.data
+        })
+      );
+    }
   } catch (error) {
     dispatch(
       runActionFailure({
         deviceID,
-        error
+        errors: [error]
       })
     );
   }
@@ -68,7 +77,7 @@ export const runActionSuccess = createAction<
   'RUN_ACTION_SUCCESS'
 >('RUN_ACTION_SUCCESS');
 export const runActionFailure = createAction<
-  { deviceID: string; error: any },
+  { deviceID: string; errors: any[] },
   'RUN_ACTION_FAILURE'
 >('RUN_ACTION_FAILURE');
 

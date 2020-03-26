@@ -26,7 +26,8 @@ export const LoadDevicesConfigurationContainer = () => {
       username: deviceConfig.username,
       password: deviceConfig.password,
       communicationMethod: deviceConfig.communicationMethod,
-      protocol: deviceConfig.protocol
+      protocol: deviceConfig.protocol,
+      errors: []
     };
     const result = await addDevice(device);
     console.log('add device action before dispatch', result);

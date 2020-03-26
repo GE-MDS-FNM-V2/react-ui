@@ -46,9 +46,13 @@ export default ({
                   </td>
                   <td>
                     {device.loading && <Spinner />}
-                    {device.error && JSON.stringify(device.error)}
-                    {!device.error && !device.initialized && 'Uninitialized'}
-                    {!device.error && device.initialized && 'Connected'}
+                    {device.errors.length > 0 && JSON.stringify(device.errors)}
+                    {device.errors.length === 0 &&
+                      !device.initialized &&
+                      'Uninitialized'}
+                    {device.errors.length === 0 &&
+                      device.initialized &&
+                      'Connected'}
                   </td>
                 </tr>
               );

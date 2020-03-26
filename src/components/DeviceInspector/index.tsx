@@ -2,7 +2,6 @@ import React from 'react';
 import { TabContent, Spinner } from 'reactstrap';
 import { DevicesState } from '../../store/devices/types';
 import { v1, ActionTypeV1, ActionObjectV1 } from '@ge-fnm/action-object';
-import { useState } from 'react';
 import { DataType } from '@ge-fnm/data-model';
 import ModelUI from '../ModelUI';
 
@@ -25,6 +24,8 @@ export default ({
   const device = devices.filter(device => {
     return device.id === selectedDeviceID;
   })[0];
+
+  const errors = device.errors;
 
   const setValue = async (valuePath: string, modifyingValue: string) => {
     runAction(
@@ -97,14 +98,16 @@ export default ({
   return (
     <div>
       <h2>{device.uri}</h2>
-      {device.loading && <Spinner />}
 
-      {!device.loading && (
-        <TabContent>
-          {/* <pre>{JSON.stringify(device, null, 4)}</pre>
+      {/* {!device.loading && ( */}
+      <TabContent>
+        {/* <pre>{JSON.stringify(device, null, 4)}</pre>
           <button onClick={() => getSNMP()}>Get SNMP value</button> */}
-          {deviceData && <ModelUI model={deviceData} setValue={setValue} />}
-          {/* <select
+        {device.loading && <Spinner />}
+        {deviceData && (
+          <ModelUI model={deviceData} setValue={setValue} errors={errors} />
+        )}
+        {/* <select
             value={inputText}
             onChange={e => setInputText(e.target.value)}
           >
@@ -112,8 +115,8 @@ export default ({
             <option>false</option>
           </select>
           <button onClick={() => setSNMP()}>Set SNMP value</button> */}
-        </TabContent>
-      )}
+      </TabContent>
+      {/* )} */}
     </div>
   );
 };
