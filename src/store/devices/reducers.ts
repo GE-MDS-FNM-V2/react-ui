@@ -74,7 +74,12 @@ export const devicesRootReducer = createReducer(initialState, builder =>
           return {
             ...device,
             loading: [],
-            error: action.payload.error
+            errors: [
+              {
+                errorObj: action.payload.error,
+                path: []
+              }
+            ]
           };
         }),
         selectedDeviceID: state.selectedDeviceID
