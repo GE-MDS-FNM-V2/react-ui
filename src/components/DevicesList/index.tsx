@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Spinner } from 'reactstrap';
 import { LoadDevicesConfigurationContainer } from '../../containers/LoadDeviceConfiguration';
 import './index.css';
-import { DevicesState } from '../../store/devices/types';
+import { DevicesState, DeviceErrorType } from '../../store/devices/types';
 
 export default ({
   devicesState,
@@ -46,7 +46,12 @@ export default ({
                   </td>
                   <td>
                     {device.loading.length > 0 && <Spinner />}
-                    {device.errors.length > 0 && JSON.stringify(device.errors)}
+                    {device.errors.length > 0 &&
+                      JSON.stringify(
+                        device.errors
+                          .map((err: DeviceErrorType) => err.errorObj.message)
+                          .join('\n')
+                      )}
                     {device.errors.length === 0 &&
                       !device.initialized &&
                       'Uninitialized'}
