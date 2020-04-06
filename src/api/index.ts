@@ -101,17 +101,17 @@ export class DeviceApiManager {
     );
 
     const response = deserializedResponseActionObject.information.response;
-
     try {
       if (response) {
         if (response.data) {
-          const rawReponse = response.data;
-          const jsonResponse = JSON.parse(rawReponse);
-          const error = jsonResponse.error;
-          if (error) {
-            throw error;
-          }
-          const data = jsonResponse.result.data;
+          /**
+           * TODO - response.data.result is a json-rpc specific property - eventually you will want to modify the dataModel parser to accept the entire response,
+           * and then return a data model
+           *
+           * as opposed to what we do now, which is manually grab the root schema node off of the jsonrpc response
+           */
+
+          const data = response.data.result.data;
           const parser = new YangParser();
           const parsed = parser.parseData(data);
 
@@ -119,7 +119,7 @@ export class DeviceApiManager {
           return {
             data: parsed
           };
-        } else {
+        } else if (response.error) {
           throw response.error; // to be caught down below
         }
       } else {
@@ -164,7 +164,6 @@ export class DeviceApiManager {
       };
     } catch (error) {
       // this would be something like a network connection error
-      debugger;
       return {
         errors: [
           {
