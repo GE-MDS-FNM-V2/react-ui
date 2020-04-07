@@ -1,4 +1,10 @@
-import { CommunicationMethodV1, ProtocolV1 } from '@ge-fnm/action-object';
+import {
+  CommunicationMethodV1,
+  ProtocolV1,
+  GEErrors
+} from '@ge-fnm/action-object';
+
+const GEError = GEErrors.GEError;
 
 export type DeviceFileConfiguration = {
   uri: string;
@@ -9,7 +15,7 @@ export type DeviceFileConfiguration = {
 };
 
 export type DeviceErrorType = {
-  errorObj: any;
+  errorObj: Error;
   path: string[];
 };
 

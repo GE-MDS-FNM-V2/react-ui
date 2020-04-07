@@ -42,7 +42,7 @@ export const ModelUI = ({
       err => JSON.stringify(err.path) === JSON.stringify(currentPath)
     )
     .map(err => {
-      return <Alert color="danger">{err.errorObj.message}</Alert>;
+      return <Alert color="danger">{JSON.stringify(err)}</Alert>;
     });
 
   const loadingForThisNode = loading
