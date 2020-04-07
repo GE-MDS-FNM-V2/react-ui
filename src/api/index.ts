@@ -119,13 +119,15 @@ export class DeviceApiManager {
           return {
             data: parsed
           };
-        } else if (response.error) {
+        } else {
+          // TODO - this will break if there is a case where this is no data and no errors
           throw response.error; // to be caught down below
         }
       } else {
         throw ERROR_NO_RESPONSE_FOUND; // to be caught down below
       }
     } catch (error) {
+      console.log('get action received following error', error);
       return {
         errors: [
           {
@@ -164,10 +166,12 @@ export class DeviceApiManager {
       };
     } catch (error) {
       // this would be something like a network connection error
+      console.log('set action received following error', error);
+      const actionObjectResponse = v1.deserialize(error);
       return {
         errors: [
           {
-            errorObj: error,
+            errorObj: actionObjectResponse.information.response?.error,
             path: extractPathFromActionObject(actionObject)
           }
         ]

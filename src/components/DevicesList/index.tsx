@@ -46,10 +46,14 @@ export default ({
                   </td>
                   <td>
                     {device.loading.length > 0 && <Spinner />}
+
                     {device.errors.length > 0 &&
                       JSON.stringify(
                         device.errors
-                          .map((err: DeviceErrorType) => err.errorObj.message)
+                          .map((err: DeviceErrorType) => {
+                            debugger;
+                            return err.errorObj.message;
+                          })
                           .join('\n')
                       )}
                     {device.errors.length === 0 &&
